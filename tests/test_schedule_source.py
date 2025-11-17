@@ -1,15 +1,12 @@
 import datetime as dt
 import uuid
-from typing import List
 
-import pytest
 from taskiq import ScheduledTask
 
 from taskiq_nats import NATSKeyValueScheduleSource
 
 
-@pytest.mark.anyio
-async def test_set_schedule(nats_urls: List[str]) -> None:
+async def test_set_schedule(nats_urls: list[str]) -> None:
     prefix = uuid.uuid4().hex
     source = NATSKeyValueScheduleSource(servers=nats_urls, prefix=prefix)
     await source.startup()
@@ -26,8 +23,7 @@ async def test_set_schedule(nats_urls: List[str]) -> None:
     await source.shutdown()
 
 
-@pytest.mark.anyio
-async def test_delete_schedule(nats_urls: List[str]) -> None:
+async def test_delete_schedule(nats_urls: list[str]) -> None:
     prefix = uuid.uuid4().hex
     source = NATSKeyValueScheduleSource(servers=nats_urls, prefix=prefix)
     await source.startup()
@@ -48,8 +44,7 @@ async def test_delete_schedule(nats_urls: List[str]) -> None:
     await source.shutdown()
 
 
-@pytest.mark.anyio
-async def test_post_run_cron(nats_urls: List[str]) -> None:
+async def test_post_run_cron(nats_urls: list[str]) -> None:
     prefix = uuid.uuid4().hex
     source = NATSKeyValueScheduleSource(servers=nats_urls, prefix=prefix)
     await source.startup()
@@ -67,8 +62,7 @@ async def test_post_run_cron(nats_urls: List[str]) -> None:
     await source.shutdown()
 
 
-@pytest.mark.anyio
-async def test_post_run_time(nats_urls: List[str]) -> None:
+async def test_post_run_time(nats_urls: list[str]) -> None:
     prefix = uuid.uuid4().hex
     source = NATSKeyValueScheduleSource(servers=nats_urls, prefix=prefix)
     await source.startup()

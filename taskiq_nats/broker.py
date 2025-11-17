@@ -37,11 +37,11 @@ class NatsBroker(AsyncBroker):
 
     def __init__(
         self,
-        servers: typing.Union[str, typing.List[str]],
+        servers: str | list[str],
         subject: str = "taskiq_tasks",
-        queue: typing.Optional[str] = None,
-        result_backend: "typing.Optional[AsyncResultBackend[_T]]" = None,
-        task_id_generator: typing.Optional[typing.Callable[[], str]] = None,
+        queue: str | None = None,
+        result_backend: "AsyncResultBackend[_T] | None" = None,
+        task_id_generator: typing.Callable[[], str] | None = None,
         **connection_kwargs: typing.Any,
     ) -> None:
         super().__init__(result_backend, task_id_generator)
@@ -107,15 +107,15 @@ class BaseJetStreamBroker(
 
     def __init__(
         self,
-        servers: typing.Union[str, typing.List[str]],
+        servers: str | list[str],
         subject: str = "taskiq_tasks",
         stream_name: str = "taskiq_jetstream",
-        queue: typing.Optional[str] = None,
+        queue: str | None = None,
         durable: str = "taskiq_durable",
-        stream_config: typing.Optional[StreamConfig] = None,
-        consumer_config: typing.Optional[ConsumerConfig] = None,
+        stream_config: StreamConfig | None = None,
+        consumer_config: ConsumerConfig | None = None,
         pull_consume_batch: int = 1,
-        pull_consume_timeout: typing.Optional[float] = None,
+        pull_consume_timeout: float | None = None,
         **connection_kwargs: typing.Any,
     ) -> None:
         super().__init__()
@@ -229,7 +229,7 @@ class PullBasedJetStreamBroker(
         """
         while True:
             try:
-                nats_messages: typing.List[NatsMessage] = await self.consumer.fetch(
+                nats_messages: list[NatsMessage] = await self.consumer.fetch(
                     batch=self.pull_consume_batch,
                     timeout=self.pull_consume_timeout,
                 )

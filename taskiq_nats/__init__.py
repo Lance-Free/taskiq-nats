@@ -14,9 +14,9 @@ from taskiq_nats.result_backend import NATSObjectStoreResultBackend
 from taskiq_nats.schedule_source import NATSKeyValueScheduleSource
 
 __all__ = [
-    "NatsBroker",
-    "PushBasedJetStreamBroker",
-    "PullBasedJetStreamBroker",
-    "NATSObjectStoreResultBackend",
     "NATSKeyValueScheduleSource",
+    "NATSObjectStoreResultBackend",
+    "NatsBroker",
+    "PullBasedJetStreamBroker",
+    "PushBasedJetStreamBroker",
 ]

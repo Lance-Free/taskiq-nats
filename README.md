@@ -1,5 +1,9 @@
 # Taskiq NATS
 
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/taskiq-nats?style=for-the-badge)](https://pypi.org/project/taskiq-nats/)
+[![PyPI](https://img.shields.io/pypi/v/taskiq-nats?style=for-the-badge)](https://pypi.org/project/taskiq-nats/)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/taskiq-nats?style=for-the-badge)](https://pypistats.org/packages/taskiq-nats)
+
 Taskiq-nats is a plugin for taskiq that adds NATS broker.
 This package has support for NATS JetStream.
 
@@ -94,7 +98,7 @@ if __name__ == "__main__":
 Here's the constructor parameters:
 
 * `servers` - a single string or a list of strings with nats nodes addresses.
-* `subject` - name of the subect that will be used to exchange tasks betwee workers and clients.
+* `subject` - name of the subect that will be used to exchange tasks between workers and clients.
 * `queue` - optional name of the queue. By default NatsBroker broadcasts task to all workers,
     but if you want to handle every task only once, you need to supply this argument.
 * `result_backend` - custom result backend.
@@ -104,7 +108,7 @@ Here's the constructor parameters:
 ## JetStreamBroker configuration
 ### Common
 * `servers` - a single string or a list of strings with nats nodes addresses.
-* `subject` - name of the subect that will be used to exchange tasks betwee workers and clients.
+* `subject` - name of the subect that will be used to exchange tasks between workers and clients.
 * `stream_name` - name of the stream where subjects will be located.
 * `queue` - a single string or a list of strings with nats nodes addresses.
 * `result_backend` - custom result backend.

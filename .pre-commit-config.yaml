@@ -1,40 +1,55 @@
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
 repos:
-- repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v2.4.0
-  hooks:
-  - id: check-ast
-  - id: trailing-whitespace
-  - id: check-toml
-  - id: end-of-file-fixer
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-ast
+      - id: trailing-whitespace
+      - id: check-toml
+      - id: end-of-file-fixer
 
-- repo: https://github.com/asottile/add-trailing-comma
-  rev: v2.1.0
-  hooks:
-  - id: add-trailing-comma
+  - repo: https://github.com/asottile/add-trailing-comma
+    rev: v4.0.0
+    hooks:
+      - id: add-trailing-comma
 
-- repo: local
-  hooks:
-  - id: black
-    name: Format with Black
-    entry: poetry run black
-    language: system
-    types: [ python ]
+  - repo: https://github.com/crate-ci/typos
+    rev: v1.38.1
+    hooks:
+      - id: typos
 
-- repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.6.0
-  hooks:
-  - id: ruff
-    name: ruff-check
-    pass_filenames: false
-    args:
-    - --fix
-    - taskiq_nats
-    - tests
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
 
-- repo: https://github.com/pre-commit/mirrors-mypy
-  rev: v1.11.1
-  hooks:
-  - id: mypy
-    pass_filenames: false
+  - repo: local
+    hooks:
+      - id: black
+        name: Format with Black
+        entry: uv run black
+        language: system
+        types: [python]
+
+      - id: ruff
+        name: Run ruff lints
+        entry: uv run ruff
+        language: system
+        pass_filenames: false
+        types: [python]
+        args:
+          - "check"
+          - "--fix"
+          - "taskiq_nats"
+          - "tests"
+
+      - id: mypy
+        name: Validate types with MyPy
+        entry: uv run mypy
+        language: system
+        pass_filenames: false
+        types: [python]
+        args:
+          - ./taskiq_nats
+          - ./tests
