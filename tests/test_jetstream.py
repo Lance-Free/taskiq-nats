@@ -1,17 +1,14 @@
 import asyncio
 import uuid
-from typing import List
 
-import pytest
 from taskiq import AckableMessage, BrokerMessage
 
 from taskiq_nats import PullBasedJetStreamBroker, PushBasedJetStreamBroker
 from tests.utils import read_message
 
 
-@pytest.mark.anyio
 async def test_push_based_broker_success(  # (too many await)
-    nats_urls: List[str],
+    nats_urls: list[str],
     nats_subject: str,
 ) -> None:
     """
@@ -52,9 +49,8 @@ async def test_push_based_broker_success(  # (too many await)
     await broker.shutdown()
 
 
-@pytest.mark.anyio()
 async def test_pull_based_broker_success(
-    nats_urls: List[str],
+    nats_urls: list[str],
     nats_subject: str,
 ) -> None:
     """

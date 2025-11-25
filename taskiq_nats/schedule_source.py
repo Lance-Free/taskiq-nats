@@ -1,5 +1,5 @@
 import logging
-from typing import Any, Final, List, Optional, Union
+from typing import Any, Final
 
 import nats
 from nats import NATS
@@ -24,10 +24,10 @@ class NATSKeyValueScheduleSource(ScheduleSource):
 
     def __init__(
         self,
-        servers: Union[str, List[str]],
+        servers: str | list[str],
         bucket_name: str = "taskiq_schedules",
         prefix: str = "schedule",
-        serializer: Optional[TaskiqSerializer] = None,
+        serializer: TaskiqSerializer | None = None,
         **connect_options: Any,
     ) -> None:
         """Construct new result backend.
@@ -88,7 +88,7 @@ class NATSKeyValueScheduleSource(ScheduleSource):
             self.serializer.dumpb(model_dump(schedule)),
         )
 
-    async def get_schedules(self) -> List[ScheduledTask]:
+    async def get_schedules(self) -> list[ScheduledTask]:
         """
         Get all schedules from NATS Key-Value storage.
 

@@ -1,5 +1,5 @@
 import uuid
-from typing import Any, List, TypeVar
+from typing import Any, TypeVar
 
 import pytest
 from taskiq import ResultGetError, TaskiqResult
@@ -7,7 +7,6 @@ from taskiq import ResultGetError, TaskiqResult
 from taskiq_nats import NATSObjectStoreResultBackend
 
 _ReturnType = TypeVar("_ReturnType")
-pytestmark = pytest.mark.anyio
 
 
 class ResultForTest:
@@ -68,7 +67,7 @@ async def test_failure_backend_result(
 
 
 async def test_success_backend_default_result_delete_res(
-    nats_urls: List[str],
+    nats_urls: list[str],
     default_taskiq_result: TaskiqResult[_ReturnType],
     task_id: str,
 ) -> None:
@@ -141,7 +140,7 @@ async def test_success_backend_is_result_ready(
         result=TaskiqResult(
             is_err=False,
             log=None,
-            return_value="one",
+            return_value="one",  # type: ignore[arg-type]
             execution_time=1,
         ),
     )

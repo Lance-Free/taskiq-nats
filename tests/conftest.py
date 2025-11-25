@@ -1,6 +1,7 @@
 import os
 import uuid
-from typing import AsyncGenerator, Final, List, TypeVar
+from collections.abc import AsyncGenerator
+from typing import Final, TypeVar
 
 import pytest
 from nats import NATS
@@ -33,7 +34,7 @@ def nats_subject() -> str:
 
 
 @pytest.fixture
-def nats_urls() -> List[str]:
+def nats_urls() -> list[str]:
     """
     List of nats urls.
 
@@ -48,7 +49,7 @@ def nats_urls() -> List[str]:
 
 @pytest.fixture()
 async def nats_jetstream(
-    nats_urls: List[str],
+    nats_urls: list[str],
 ) -> AsyncGenerator[JetStreamContext, None]:
     """Create and yield nats client and jetstream instances.
 
@@ -65,7 +66,7 @@ async def nats_jetstream(
 
 @pytest.fixture()
 async def nats_result_backend(
-    nats_urls: List[str],
+    nats_urls: list[str],
 ) -> AsyncGenerator[NATSObjectStoreResultBackend[_ReturnType], None]:
     backend: NATSObjectStoreResultBackend[_ReturnType] = NATSObjectStoreResultBackend(
         servers=nats_urls,

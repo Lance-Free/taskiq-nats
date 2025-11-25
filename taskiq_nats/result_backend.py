@@ -1,4 +1,4 @@
-from typing import Any, Final, List, Optional, TypeVar, Union
+from typing import Any, Final, TypeVar
 
 import nats
 from nats.aio.client import Client
@@ -19,10 +19,10 @@ class NATSObjectStoreResultBackend(AsyncResultBackend[_ReturnType]):
 
     def __init__(
         self,
-        servers: Union[str, List[str]],
+        servers: str | list[str],
         keep_results: bool = True,
         bucket_name: str = "taskiq_results",
-        serializer: Optional[TaskiqSerializer] = None,
+        serializer: TaskiqSerializer | None = None,
         **connect_options: Any,
     ) -> None:
         """Construct new result backend.
@@ -115,8 +115,8 @@ class NATSObjectStoreResultBackend(AsyncResultBackend[_ReturnType]):
             )
 
         taskiq_result: TaskiqResult[_ReturnType] = model_validate(
-            TaskiqResult[_ReturnType],  # type: ignore[misc]
-            self.serializer.loadb(result.data),
+            TaskiqResult[_ReturnType],
+            self.serializer.loadb(result.data),  # type: ignore[arg-type]
         )
 
         if not with_logs:
