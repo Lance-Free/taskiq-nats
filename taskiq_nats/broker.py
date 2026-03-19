@@ -142,7 +142,7 @@ class BaseJetStreamBroker(
     async def _add_or_reuse_stream(self) -> None:
         try:
             await self.js.stream_info(self.stream_config.name)
-            await self.js.update_stream(self.stream_config.name)
+            await self.js.update_stream(self.stream_config)
             logger.info(f"Stream {self.stream_config.name} already exists and was reused.")
         except StreamNotFoundError:
             await self.js.add_stream(config=self.stream_config)
