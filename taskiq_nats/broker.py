@@ -7,6 +7,7 @@ from nats.aio.msg import Msg as NatsMessage
 from nats.errors import TimeoutError as NatsTimeoutError
 from nats.js import JetStreamContext
 from nats.js.api import ConsumerConfig, StreamConfig
+from nats.js.errors import NotFoundError as StreamNotFoundError
 from taskiq import AckableMessage, AsyncBroker, AsyncResultBackend, BrokerMessage
 
 _T = typing.TypeVar("_T")  # (Too short)
@@ -138,6 +139,14 @@ class BaseJetStreamBroker(
 
         self.consumer: JetStreamConsumerType
 
+    async def _add_or_reuse_stream(self) -> None:
+        try:
+            await self.js.stream_info(self.stream_config.name)
+            logger.info(f"Stream {self.stream_config.name} already exists and was reused.")
+        except StreamNotFoundError:
+            await self.js.add_stream(config=self.stream_config)
+            logger.info(f"Created stream {self.stream_config.name}")
+
     async def startup(self) -> None:
         """
         Startup event handler.
@@ -152,7 +161,7 @@ class BaseJetStreamBroker(
             self.stream_config.name = self.stream_name
         if not self.stream_config.subjects:
             self.stream_config.subjects = [self.subject]
-        await self.js.add_stream(config=self.stream_config)
+        await self._add_or_reuse_stream()
         await self._startup_consumer()
 
     async def shutdown(self) -> None:
